@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-declare var $: any;
+import { FormBuilder, Validators } from '@angular/forms';
+import { ViewChild, ElementRef } from '@angular/core';
+
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
+
 })
 export class AppComponent {
+  @ViewChild('ccNumber') ccNumberField: ElementRef;
   title = 'AngularForm';
   myForm: any;  myFormEdit: any;editIndex=0;
   type:string="";
@@ -21,7 +26,8 @@ export class AppComponent {
     userName:"Djohn",
     password:'',
     age:29,
-    salary:19445
+    salary:19445,
+    creditCard:6643545612343455
   },
   {
     id:2,
@@ -30,7 +36,8 @@ export class AppComponent {
     userName:"Mron",
     password:'',
     age:39,
-    salary:354436
+    salary:354436,
+    creditCard:2345345634562345
   }
   
   ]
@@ -47,7 +54,8 @@ export class AppComponent {
       firstName:'',
       lastName:'',
       age:null,
-      salary:null
+      salary:null,
+      creditCard:['', [Validators.required, Validators.pattern('^[ 0-9]*$'), Validators.minLength(16), Validators.maxLength(16)]]
     });
 
     this.myFormEdit = this.formBuilder.group({
@@ -57,7 +65,8 @@ export class AppComponent {
       firstName:'',
       lastName:'',
       age:null,
-      salary:null
+      salary:null,
+      creditCard: ['', [Validators.required, Validators.pattern('^[ 0-9]*$'), Validators.minLength(16), Validators.maxLength(16)]]
     });
     this.UserData = this.getData() ? this.getData() : this.UserData;
   }
@@ -103,6 +112,7 @@ export class AppComponent {
     this.myFormEdit.controls['lastName'].setValue(this.UserData[this.editIndex].lastName);
     this.myFormEdit.controls['age'].setValue(this.UserData[this.editIndex].age);
     this.myFormEdit.controls['salary'].setValue(this.UserData[this.editIndex].salary);
+    this.myFormEdit.controls['creditCard'].setValue(this.UserData[this.editIndex].creditCard);
     this.editIndex = i;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -120,4 +130,5 @@ export class AppComponent {
       return `with: ${reason}`;
     }
   }
+  
 }
