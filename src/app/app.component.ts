@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ViewChild, ElementRef } from '@angular/core';
 
@@ -44,7 +44,8 @@ export class AppComponent {
 
   constructor(
     private modalService: NgbModal,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
@@ -94,6 +95,16 @@ export class AppComponent {
     this.myForm.value.id= this.UserData[this.UserData.length-1].id +1;
     this.UserData.push(this.myForm.value);
     this.setData(this.UserData);
+    this.myForm = this.formBuilder.group({
+      id:2,
+      userName: '',
+      password: '',
+      firstName:'',
+      lastName:'',
+      age:null,
+      salary:null,
+      creditCard:['', [Validators.required, Validators.pattern('^[ 0-9]*$'), Validators.minLength(16), Validators.maxLength(16)]]
+    });
   }
 
   openADDForm(content){
@@ -105,6 +116,7 @@ export class AppComponent {
   }
 
   openEDITForm(content,i){
+    this.editIndex = i;
     this.myFormEdit.controls['id'].setValue(this.UserData[this.editIndex].id);
     this.myFormEdit.controls['userName'].setValue(this.UserData[this.editIndex].userName);
     this.myFormEdit.controls['password'].setValue(this.UserData[this.editIndex].password);
@@ -113,7 +125,7 @@ export class AppComponent {
     this.myFormEdit.controls['age'].setValue(this.UserData[this.editIndex].age);
     this.myFormEdit.controls['salary'].setValue(this.UserData[this.editIndex].salary);
     this.myFormEdit.controls['creditCard'].setValue(this.UserData[this.editIndex].creditCard);
-    this.editIndex = i;
+    this.cd.detectChanges();
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

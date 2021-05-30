@@ -2,7 +2,7 @@
 
 <div class="container">
   <h2 class="header">User Details</h2>
-  <button  type="button" class="btn btn-danger" (click)="openADDForm(content)"> AddUser</button>           
+  <button  type="button" class="btn btn-danger" (click)="openADDForm(content)"> Add User</button>           
   <table class="table table-striped">
     <thead>
       <tr>
@@ -24,7 +24,7 @@
         <td>{{x.userName}}</td>
         <td>{{x.age}}</td>
         <td>{{x.salary}}</td>
-        <td > {{x.creditCard | lastFour}}</td>
+        <td > ************{{x.creditCard | lastFour}}</td>
         <td>
           <button class="btn btn-success" (click)="delete(i)"> Delete</button> &nbsp;
           <button  class="btn btn-success" (click)="openEDITForm(contentEdit,i)">Edit</button>
@@ -69,10 +69,10 @@
       </div>
       <div class="form-group">
         <label >Credit Card No.</label>
-        <input formControlName="creditCard" type="number" class="form-control">
+        <input  formControlName="creditCard" type="number" class="form-control">
       </div>
 <br>
-      <button type="submit" class="btn btn-primary"  (click)="addUser();modal.dismiss('Add Closed')">Add</button>
+      <button type="submit" class="btn btn-primary"   (click)="addUser();modal.dismiss('Add Closed')">Add</button>
     </form>
   </div>
 </ng-template> 
